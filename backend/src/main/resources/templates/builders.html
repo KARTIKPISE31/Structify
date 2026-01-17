@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Builders</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f5f5f5;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        .filter-box {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .filter-box input,
+        .filter-box button {
+            padding: 8px;
+            margin-right: 10px;
+        }
+
+        .builder-card {
+            background: white;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: #e0f2f1;
+            color: #00695c;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Available Builders</h2>
+
+<!-- ✅ FILTER FORM -->
+<div class="filter-box">
+    <form method="get" action="/builders/filter">
+
+        <label>Max Cost (₹/sq.ft):</label>
+        <input type="number" name="maxCost" placeholder="e.g. 2500">
+
+        <label>Location:</label>
+        <input type="text" name="location" placeholder="City">
+
+        <label>
+            <input type="checkbox" name="sustainable">
+            Sustainability Only 🌱
+        </label>
+
+        <button type="submit">Apply Filter</button>
+    </form>
+</div>
+
+<!-- ❌ No Builders -->
+<div th:if="${builders == null or builders.isEmpty()}">
+    <p>No builders found.</p>
+</div>
+
+<!-- ✅ Builders List -->
+<div th:each="b : ${builders}" class="builder-card">
+
+    <p><b>Company Name:</b>
+        <span th:text="${b.companyName}"></span>
+    </p>
+
+    <p><b>Experience:</b>
+        <span th:text="${b.experienceYears}"></span> years
+    </p>
+
+    <p><b>Projects Completed:</b>
+        <span th:text="${b.numberOfProjects}"></span>
+    </p>
+
+    <p><b>Cost per Sq.ft:</b>
+        ₹<span th:text="${b.costPerSqFt}"></span>
+    </p>
+
+    <p><b>Location:</b>
+        <span th:text="${b.location}"></span>
+    </p>
+
+    <div th:if="${b.sustainabilityFocused}" class="tag">
+        Sustainability Focused 🌱
+    </div>
+
+</div>
+
+</body>
+</html>

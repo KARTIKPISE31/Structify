@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Structify - Login</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form th:action="@{/login}" method="post">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p>Don't have an account? <a th:href="@{/signup}">Sign Up</a></p>
+
+        <!-- Show login error/logout messages -->
+        <div style="color:red;">
+            <span th:if="${param.error}" th:text="'Invalid email or password.'"></span>
+            <span th:if="${param.logout}" th:text="'You have been logged out.'"></span>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Builder Recommendation</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f3f4f6;
+            padding: 40px;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            max-width: 520px;
+            margin: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>AI Builder Recommendation</h2>
+
+    <input id="location" placeholder="Enter Location">
+    <input id="budget" placeholder="Budget (Low / Medium / High)">
+    <input id="projectType" placeholder="Project Type">
+    <input id="sustainability" placeholder="Sustainability Preference">
+
+    <button onclick="getRecommendation()">Get Recommendation</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+function getRecommendation() {
+
+    fetch("/ai/recommend-from-db", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            location: location.value,
+            budget: budget.value,
+            projectType: projectType.value,
+            sustainability: sustainability.value
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data) {
+            result.innerHTML = "<p>No suitable builder found.</p>";
+            return;
+        }
+
+        result.innerHTML = `
+            <div class="card">
+                <h3>${data.builder.companyName}</h3>
+                <p><b>Location:</b> ${data.builder.location}</p>
+                <p><b>AI Explanation:</b><br>${data.explanation}</p>
+            </div>
+        `;
+    })
+    .catch(() => alert("Error getting recommendation"));
+}
+</script>
+
+</body>
+</html>

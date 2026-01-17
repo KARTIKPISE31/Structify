@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Builder Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .upload-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 18px;
+            background-color: #2c7be5;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .upload-btn:hover {
+            background-color: #1a5bb8;
+        }
+
+        .info {
+            margin-top: 20px;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Builder Dashboard</h2>
+
+    <!-- If company NOT uploaded -->
+    <div th:if="${!companyExists}">
+        <a href="/builder/company/form" class="upload-btn">
+            Upload Company Details
+        </a>
+    </div>
+
+    <!-- If company already uploaded -->
+    <div th:if="${companyExists}" class="info">
+        ✅ Company details already submitted
+    </div>
+
+</div>
+
+</body>
+</html>

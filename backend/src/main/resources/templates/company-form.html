@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Builder Company Details</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Company Details (One-time Submission)</h2>
+
+    <form action="/builder/company/submit" method="post">
+
+        <label>Company Name</label>
+        <input type="text" name="companyName" required />
+
+        <label>Experience (Years)</label>
+        <input type="number" name="experienceYears" min="0" required />
+
+        <label>Number of Previous Projects</label>
+        <input type="number" name="numberOfProjects" min="0" required />
+
+        <label>Cost per Sq Ft</label>
+        <input type="number" step="0.01" name="costPerSqFt" required />
+
+        <label>Location</label>
+        <input type="text" name="location" required />
+
+        <label>
+            <input type="checkbox" name="sustainabilityFocused" />
+            Sustainability Focused
+        </label>
+
+        <br><br>
+        <button type="submit">Submit Company Details</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

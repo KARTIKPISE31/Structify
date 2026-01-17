@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Structify | Admin Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #1f2937;
+            color: white;
+            padding: 15px 30px;
+            font-size: 22px;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        h2 {
+            color: #111827;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        th, td {
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background: #f9fafb;
+        }
+
+        button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .approve {
+            background: #16a34a;
+            color: white;
+        }
+
+        .reject {
+            background: #dc2626;
+            color: white;
+        }
+
+        .empty {
+            margin-top: 20px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    Structify Admin Dashboard
+</header>
+
+<div class="container">
+    <h2>Pending Builder Approvals</h2>
+
+    <!-- ✅ IF PENDING BUILDERS EXIST -->
+    <table th:if="${pendingBuilders != null and !pendingBuilders.isEmpty()}">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="builder : ${pendingBuilders}">
+            <td th:text="${builder.name}">Name</td>
+            <td th:text="${builder.email}">Email</td>
+            <td>
+                <form th:action="@{/admin/approve-builder/{id}(id=${builder.id})}"
+                      method="post" style="display:inline;">
+                    <button class="approve" type="submit">Approve</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- ❌ IF NO PENDING BUILDERS -->
+    <div class="empty"
+         th:if="${pendingBuilders == null or pendingBuilders.isEmpty()}">
+        No pending builders found.
+    </div>
+
+</div>
+
+</body>
+</html>
