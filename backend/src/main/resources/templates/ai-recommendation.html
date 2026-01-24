@@ -30,6 +30,7 @@
             color: white;
             border: none;
             border-radius: 6px;
+            cursor: pointer;
         }
 
         .result {
@@ -54,27 +55,40 @@
     <input id="projectType" placeholder="Project Type">
     <input id="sustainability" placeholder="Sustainability Preference">
 
+    <!-- ✅ BUTTON -->
     <button onclick="getRecommendation()">Get Recommendation</button>
 
     <div class="result" id="result"></div>
 </div>
 
+<!-- ✅ SCRIPT MUST BE AT BOTTOM -->
 <script>
 function getRecommendation() {
 
-    fetch("/ai/recommend-from-db", {
+    const result = document.getElementById("result");
+
+    result.innerHTML = "<p>⏳ AI is analyzing builders...</p>";
+
+    fetch(window.location.origin + "/ai/recommend-from-db", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify({
-            location: location.value,
-            budget: budget.value,
-            projectType: projectType.value,
-            sustainability: sustainability.value
+            location: document.getElementById("location").value,
+            budget: document.getElementById("budget").value,
+            projectType: document.getElementById("projectType").value,
+            sustainability: document.getElementById("sustainability").value
         })
     })
-    .then(res => res.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Server error");
+        }
+        return response.json();
+    })
     .then(data => {
-        if (!data) {
+        if (!data || !data.builder) {
             result.innerHTML = "<p>No suitable builder found.</p>";
             return;
         }
@@ -87,7 +101,10 @@ function getRecommendation() {
             </div>
         `;
     })
-    .catch(() => alert("Error getting recommendation"));
+    .catch(err => {
+        console.error(err);
+        result.innerHTML = "<p style='color:red;'>Error getting recommendation</p>";
+    });
 }
 </script>
 
